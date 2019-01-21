@@ -89,7 +89,7 @@ auto& colliders(manager.GetGroup(Engine::groupColliders));
 auto& projectiles(manager.GetGroup(Engine::groupProjectiles));
 
 void Engine::Update() {
-	SDL_Rect playerCol = player.GetComponent<Collider>().collider;
+	Collider playerCol = player.GetComponent<Collider>();
 	Vector2D playerPos = player.GetComponent<Transform>().position;
 	Vector2D velocity;
 
@@ -100,16 +100,16 @@ void Engine::Update() {
 
 
 	for (auto& c : colliders) {
-		SDL_Rect otherCollider = c->GetComponent<Collider>().collider;
-		if (Collision::AABB(otherCollider, playerCol)) {
+		Collider otherCollider = c->GetComponent<Collider>();
+		if (Collision::AABB(otherCollider, playerCol, 0.5f)) {
 			Vector2D velocity = player.GetComponent<Transform>().velocity;
 			player.GetComponent<Transform>().position = playerPos - velocity;
 			label.GetComponent<UILabel>().SetLabelText("X: " + to_string(velocity.x) + " Y: " + to_string(velocity.y) , "arial");
 		}
 	}
 	for (auto& p : projectiles) {
-		SDL_Rect otherCollider = p->GetComponent<Collider>().collider;
-		if (Collision::AABB(otherCollider, playerCol)) {
+		Collider otherCollider = p->GetComponent<Collider>();
+		if (Collision::AABB(otherCollider, playerCol, 0.5f)) {
 			cout << "Hit!" << endl;
 			p->Destroy();
 		}

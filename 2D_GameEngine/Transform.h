@@ -7,7 +7,6 @@ class Transform : public Component {
 public:
 	Vector2D position;
 	Vector2D velocity;
-	Collider *collider;
 
 	int height = 32;
 	int width = 32;
@@ -45,12 +44,9 @@ public:
 
 	void Init() override {
 		velocity.Zero();
-		collider = &entity->GetComponent<Collider>();
 	}
 	
 	void Move(float x, float y) {
-		collider->collider.x += x;
-		collider->collider.y += y;
 		position.x += x;
 		position.y += y;
 
